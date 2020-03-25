@@ -1,0 +1,11 @@
+{
+  "name": "omnistack11",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/RobersonLaercioBrehm/OmniStack11.git",
+  "author": "Unfear <roberson@unfear.com.br>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
