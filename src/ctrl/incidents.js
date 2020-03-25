@@ -1,7 +1,17 @@
 const conexao = require('../data/conexao');
 module.exports = {
 	async lst(req, res) {
-		const incidents = await conexao('incidents').select('*');
+		const { page } = req.query;
+
+		const [count] = await conexao('incidents').count();
+
+		const incidents = await conexao('incidents')
+			.join('ongs', 'ongs.ongID' , '=', 'incidents.ongID')
+			.limit(5)
+			.offset((page - 1) * 5)
+			.select('*');
+
+		res.header('X-Total-Count', count['count(*)']);
 		return res.json(incidents);
 	},
 	async get(req, res) {
@@ -30,7 +40,7 @@ module.exports = {
 			.first();
 
 		if (incident.ongID !== ongID) {
-			return res.status(401).json({error: 'Não autorizado!'});
+			return res.status(401).json({ error: 'Não autorizado!' });
 		}
 
 		await conexao('incidents').where('incidentID', id).delete();
